@@ -1,5 +1,4 @@
 #!/usr/local/bin/python
-# Author:zzx
 # 功能：调用pinpoint接口，监控每个应用的调用错误数，并将告警信息发送到钉钉。
 import sys
 import os
@@ -16,12 +15,9 @@ To_Time = datetime.datetime.now()
 From_TimeStamp = int(time.mktime(From_Time.timetuple())) * 1000
 To_TimeStamp = int(time.mktime(datetime.datetime.now().timetuple())) * 1000
 
-webhook = "https://oapi.dingtalk.com/robot/send?access_token=fefe14086556214701f25a5b9620e57917f883b44ebe44e15fcc5e8d60700222"
-# webhook_error="https://oapi.dingtalk.com/robot/send?access_token=104f9c7785f141045b57da4b973c39b736b0440ef413a48cdc917d6de580029e"
-# webhook_slow="https://oapi.dingtalk.com/robot/send?access_token=fefe14086556214701f25a5b9620e57917f883b44ebe44e15fcc5e8d60700222"
-# webhook="https://oapi.dingtalk.com/robot/send?access_token=55f55b3e462809de81f24bfa55f675bce560147a7a7206fc999c31d96ac33bc0"
+webhook = "https://oapi.dingtalk.com/robot/send?access_token=1111111111111111111111111111"
 
-PPURL = "http://172.10.4.70:8079"
+PPURL = "http://172.10.x.c:8079"
 
 
 def get_applications():
@@ -108,7 +104,7 @@ def update_servermap(appname, from_time=From_TimeStamp, to_time=To_TimeStamp, se
         errorCount += link['errorCount']
         slowCount += link['slowCount']
 
-    #    return totalCount
+    # return totalCount
     # return errorCount
     return {"slowCount": slowCount, "errorCount": errorCount}
 
@@ -147,7 +143,7 @@ if __name__ == "__main__":
     #    start = time.time()
     '''初始化钉钉对象'''
     xiaoding = DingtalkChatbot(webhook)
-    at_mobiles = ['13728978429']
+    at_mobiles = ['131xxxxxxxxxxxxxx']
     '''获取所有服务的app名和服务类型，并存到字典中'''
     applicationLists = get_applications()
     # applicationLists = [x for x in get_applications() if 'dute-chigua-manager' not in x["applicationName"]]
@@ -169,9 +165,7 @@ if __name__ == "__main__":
 
             for i in ["slowCount", "errorCount"]:
                 if count[
-                    i] >= 1 and application_name != 'chigua-manager' and application_name != 'circle-publish-service':
-                    # print(i,count[i])
-
+                    i] >= 1 and application_name != 'xx-service' and application_name != 'yy-service:
                     text_error = """
 <font color=#FF0000>pinpoint错误报警</font>\n\n
 > <font color=#0A0A0A>报警策略：</font>{type}\n\n
