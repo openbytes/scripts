@@ -15,7 +15,6 @@ def filteID(id):
     end = time.time()
     print(end - start)
 
-
 pool = t(8)
 with open('id') as f:
     for line in f:
