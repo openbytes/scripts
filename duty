@@ -1,0 +1,91 @@
+# coding=utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+import pymysql
+import requests
+import datetime
+import json
+
+t = str(datetime.date.today())
+t1 = str((datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+headers = {'Content-Type': 'application/json;charset=utf-8'}
+#DingAPI = "https://oapi.dingtalk.com/robot/send?access_token=48dede00c5312aa6dbd07901276632a992cd2cdca83e59fb04586e2e16d4089c"
+DingAPI = "https://oapi.dingtalk.com/robot/send?access_token=76a613c5d4b9b488019ccd0dc7b8dcc4827cdbddf39cc750a071e3d2ad6f0433"
+
+def duty():
+    conn = pymysql.connect(
+        host='172.10.4.92',
+        user='dianyou',
+        password='dianyou',
+        db='dianyou',
+        charset='utf8'
+    )
+
+    try:
+        cur = conn.cursor()
+        sql = "select * from duty_dutytable a where a.duty_day=" + "'" + t + "'"
+        cur.execute(sql)
+        content = cur.fetchone()
+        return content
+    except:
+        return "DB is not connection"
+
+def duty2():
+    conn = pymysql.connect(
+        host='172.10.4.92',
+        user='dianyou',
+        password='dianyou',
+        db='dianyou',
+        charset='utf8'
+    )
+
+    try:
+        cur = conn.cursor()
+        sql = "select * from duty_dutytable a where a.duty_day=" + "'" + t1 + "'"
+        cur.execute(sql)
+        content = cur.fetchone()
+        return content
+    except:
+        return "DB is not connection"
+
+
+def alter(msg):
+    """
+    自动发送值班消息
+    :return:
+    """
+
+    contents = {
+        "msgtype": "markdown",
+        "markdown": {
+            "title": "今日值班信息",
+            "text": msg
+        },
+        "at": {
+            "isAtAll": True
+        }
+    }
+    print(requests.post(DingAPI, data=json.dumps(contents), headers=headers).json())
+
+
+if __name__ == '__main__':
+    data = duty()
+    data2 = duty2()
+    msg = """
+> ### 值班日期: {day}({week})
+
+> ### 值班时间: 18:30-01:00(第二天) | 06:00-09:00(第二天)
+
+> ### 业务值班人员: <font color="#dd0000">{person1}</font><br />
+
+> ### 监控值班人员: <font color="#dd0000">{person2}</font><br />
+
+> ### 业务值班联系电话: {phone}
+
+> ### 监控值班联系电话: {phone1}
+
+> ### 值班详情: 戳我查看详情--->[值班](http://zhiban.chigua.cn:10002/)
+    """.format(day=t, person1=data[3], person2=data2[3], phone=data[4], week=data[2],phone1=data2[4])
+
+    alter(msg)
