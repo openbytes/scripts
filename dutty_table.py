@@ -23,25 +23,13 @@ db_config = {
 # )
 
 phone_info = {
-    "王维": "13128843121",
-    "于华云": "13728618304",
-    "雷善义": "15361503661"
+    "王维": "131xxxxxxxxxxxx",
+    "于华云": "137xxxxxxxxxxx",
+    "雷善义": "153xxxxxxxxxxx"
 }
 
 duty_people_info = ['王维', '于华云', '雷善义']
-# duty_people_info = ['肖恒', "陈锦龙"]
 weekdays = {0: "星期一", 1: "星期二", 2: "星期三", 3: "星期四", 4: "星期五", 5: "星期六", 6: "星期天"}
-
-
-# def duty_yestoday():
-#     """:arg
-#     昨天值班的人
-#     """
-#     cursor = conn.cursor()
-#     cursor.execute(
-#         "select * from duty_dutytable where duty_day='{0}'".format(datetime.date.today() + datetime.timedelta(days=-1)))
-#     res = cursor.fetchone()
-#     return res[3]
 
 
 def leap_year():
@@ -50,11 +38,8 @@ def leap_year():
     :return:
     """
     current_year = datetime.datetime.now().year
-    try:
-        datetime.datetime.strptime("{}-02-29".format(current_year), "%Y-%m-%d")
-        return True
-    except:
-        return False
+    return datetime.datetime.strptime("{}-02-29".format(current_year), "%Y-%m-%d")
+  
 
 
 def nums_of_days():
