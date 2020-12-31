@@ -71,7 +71,7 @@ if __name__ == '__main__':
     tomorrow_content = a.connection_db(
         f"select * from duty_dutytable where duty_day = '{tomorrow}'")
     # 如果今天和明天都有记录,直接从数据库里面拿数据
-    if today_content and tomorrow:
+    if today_content and tomorrow_content:
         alert(day=today, person1=today_content[3], person2=tomorrow_content[3], phone1=today_content[4],
               week=today_content[2], phone2=tomorrow_content[4])
     # 如果明天没有记录,业务值班人员信息直接去前天的人员
